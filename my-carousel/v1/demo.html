@@ -35,25 +35,25 @@
 <script src="./my-carousel.js"></script>
 <script>
 function log (newindex, oldindex) {
-  console.log(newindex, oldindex);
+  //console.log(newindex, oldindex);
 }
 //-----------------------------------------------------------------------------------------
 var carousel1 = myCarousel.init({
   el: document.getElementById('div1'),
   urls: ['../img/1.jpg', '../img/2.jpg', '../img/3.jpg', '../img/4.jpg', '../img/5.jpg'],//
-  curIndex: 3,//urls数组的下标，0是第一个,
-  cycle: 3333
+  curIndex: 0,//urls数组的下标，0是第一个,
+  cycle: 5333
 })
 var carousel2 = myCarousel.init({
-  el: document.getElementById('div1'),
+  el: document.getElementById('div2'),
   urls: ['../img/6.jpg', '../img/7.jpg', '../img/8.jpg', '../img/9.jpg'],//
   curIndex: 3,//urls数组的下标，0是第一个
   change: log
 })
 myCarousel.init({
-  el: document.getElementById('div1'),
-  urls: ['../img/3.jpg', '../img/4.jpg', '../img/5.jpg', '../img/6.jpg'],//
-  curIndex: 3,//urls数组的下标，0是第一个
+  el: document.getElementById('div3'),
+  urls: ['../img/1.jpg', '../img/2.jpg'],//
+  curIndex: 1,//urls数组的下标，0是第一个
   isAutoPlay: false
 })
 </script>

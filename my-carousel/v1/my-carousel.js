@@ -16,7 +16,7 @@ window.myCarousel = (function () {
   var LEFT = 0, RIGHT = 1;
 
   function initCarousel (options) {
-    var urls = []
+    var urls = []//只有2张图片怎么办 TODO
     var boxes = [];
     var curIndex = 0;
     var isAutoPlay = true;
@@ -25,6 +25,7 @@ window.myCarousel = (function () {
     var timerId = null;
     var changeCallback = null;
     init(options);
+
     function init (options) {
       if (!options.el) {
         throw new Error('el does not exist');
@@ -129,13 +130,15 @@ window.myCarousel = (function () {
       if (typeof e.target.dataset.index === 'undefined' || (typeof e.target.dataset.index === 'object' && !e.target.dataset.index)) {
         return;
       }
-      terminalPlay(jumpTo, e.target.dataset.index)
+      jumpTo(e.target.dataset.index);
     }
 
     function terminalPlay (cb, arg) {
+      console.log(timerId);
       isAutoPlay && clearTimeout(timerId);
       cb(arg);
       isAutoPlay && (timerId = setTimeout(autoPlay, cycle))
+      console.log(timerId);
     }
 
     function buildImgUrl (boxes) {
@@ -169,7 +172,6 @@ window.myCarousel = (function () {
         return;
       }
       !step && step !== 0 && (step = 1);//step不存在，默认移动1一步
-
       var oldIndex = curIndex;
       curIndex = curIndex - step;
       curIndex < 0 && (curIndex += urls.length)
@@ -177,7 +179,7 @@ window.myCarousel = (function () {
       if (changeCallback(curIndex, oldIndex) === false) {
         return;
       }
-
+      isMoving = true;
       var footer = boxes.pop();
       boxes.unshift(footer);
 
@@ -188,6 +190,7 @@ window.myCarousel = (function () {
       if (isMoving) {
         return;
       }
+
       !step && step !== 0 && (step = 1);//i不存在，默认移动1一步
 
       var oldIndex = curIndex;
@@ -198,13 +201,15 @@ window.myCarousel = (function () {
       if (changeCallback(curIndex, oldIndex) === false) {
         return;
       }
+      isMoving = true;
       var head = boxes.shift();
       boxes.push(head);
       move(boxes, RIGHT);
     }
+
     //执行切换 入口只有next和previous
     function move (boxes, direction) {
-      isMoving = true;
+
       boxes[1].imgEL.src = urls[curIndex];//先渲染主图
 
       var leftNode = boxes[0].el;
@@ -250,7 +255,7 @@ window.myCarousel = (function () {
     }
 
     return {
-      jumpTo: jumpTo,//考虑如果ismoveing;拦截了怎么办,维护一个调用队列？
+      jumpTo: jumpTo,//考虑如果ismoveing;拦截了用户调用的jumpTo怎么办,维护一个调用队列？ TODO
       next: onNext,
       previous: onPrevious
     }
