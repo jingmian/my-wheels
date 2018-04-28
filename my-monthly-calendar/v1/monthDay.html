@@ -6,89 +6,92 @@
 </head>
 <body>
 <div class="my-calendar">
-<div class="validate-tip">
-    <div class="validate-tran"></div>
-    <span class="validate-tip-text">
+    <div class="validate-tip">
+        <div class="validate-tran"></div>
+        <span class="validate-tip-text">
         <i class="fa fa-times-circle" aria-hidden="true" style="color: red;"></i>
         日期不能为空!
     </span>
-</div>
-<div style="width: fit-content">
+    </div>
+    <div style="width: fit-content">
     <span class="calendar-input-wrapper">
         <input type="text" class="calendar-input" readonly/>
     </span>
 
-    <div class="calendar" tabindex="1">
-        <header class="month-box"><span class="left-arrow"><</span>
-            <select>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-            </select>月
-            <span class="right-arrow">></span></header>
-        <table class="calendar-table">
-            <tr>
-                <td data-day="1">1</td>
-                <td data-day="2">2</td>
-                <td data-day="3">3</td>
-                <td data-day="4">4</td>
-                <td data-day="5">5</td>
-                <td data-day="6">6</td>
-                <td data-day="7">7</td>
-            </tr>
-            <tr>
-                <td data-day="8">8</td>
-                <td data-day="9">9</td>
-                <td data-day="10">10</td>
-                <td data-day="11">11</td>
-                <td data-day="12">12</td>
-                <td data-day="13">13</td>
-                <td data-day="14">14</td>
-            </tr>
-            <tr>
-                <td data-day="15">15</td>
-                <td data-day="16">16</td>
-                <td data-day="17">17</td>
-                <td data-day="18">18</td>
-                <td data-day="19">19</td>
-                <td data-day="20">20</td>
-                <td data-day="21">21</td>
-            </tr>
-            <tr>
-                <td data-day="22">22</td>
-                <td data-day="23">23</td>
-                <td data-day="24">24</td>
-                <td data-day="25">25</td>
-                <td data-day="26">26</td>
-                <td data-day="27">27</td>
-                <td data-day="28">28</td>
-            </tr>
-            <tr>
-                <td data-day="29">29</td>
-                <td data-day="30">30</td>
-                <td data-day="31">31</td>
-            </tr>
-        </table>
-        <div>
-            <button id="calendar-confirm-button" class="calendar-button"
-                    style="background: #2e94f8;color: white;float: right;margin-left: 11px;">确定
-            </button>
-            <button id="calendar-cancel-button" class="calendar-button"
-                    style="background:white;float: right;margin-left: 11px;">取消
-            </button>
+        <div class="calendar" tabindex="1">
+            <header class="month-box"><span class="left-arrow"><</span>
+                <select>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>月
+                <span class="right-arrow">></span></header>
+            <table class="calendar-table">
+                <tr>
+                    <td data-day="1">1</td>
+                    <td data-day="2">2</td>
+                    <td data-day="3">3</td>
+                    <td data-day="4">4</td>
+                    <td data-day="5">5</td>
+                    <td data-day="6">6</td>
+                    <td data-day="7">7</td>
+                </tr>
+                <tr>
+                    <td data-day="8">8</td>
+                    <td data-day="9">9</td>
+                    <td data-day="10">10</td>
+                    <td data-day="11">11</td>
+                    <td data-day="12">12</td>
+                    <td data-day="13">13</td>
+                    <td data-day="14">14</td>
+                </tr>
+                <tr>
+                    <td data-day="15">15</td>
+                    <td data-day="16">16</td>
+                    <td data-day="17">17</td>
+                    <td data-day="18">18</td>
+                    <td data-day="19">19</td>
+                    <td data-day="20">20</td>
+                    <td data-day="21">21</td>
+                </tr>
+                <tr>
+                    <td data-day="22">22</td>
+                    <td data-day="23">23</td>
+                    <td data-day="24">24</td>
+                    <td data-day="25">25</td>
+                    <td data-day="26">26</td>
+                    <td data-day="27">27</td>
+                    <td data-day="28">28</td>
+                </tr>
+                <tr>
+                    <td data-day="29">29</td>
+                    <td data-day="30">30</td>
+                    <td data-day="31">31</td>
+                </tr>
+            </table>
+            <div>
+                <button id="calendar-confirm-button" class="calendar-button"
+                        style="background: #2e94f8;color: white;float: right;margin-left: 11px;">确定
+                </button>
+                <button id="calendar-cancel-button" class="calendar-button"
+                        style="background:white;float: right;margin-left: 11px;">取消
+                </button>
+            </div>
         </div>
     </div>
 </div>
-</div>
+<script>
+
+</script>
 <style>
     .month-box {
         text-align: center;
@@ -106,9 +109,11 @@
         color: grey;
         cursor: pointer;
     }
-    .my-calendar{
+
+    .my-calendar {
         font-size: 14px;
     }
+
     .calendar {
         z-index: 128;
         position: absolute;
