@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="my-calendar">
+<div class="validate-tip">
+    <div class="validate-tran"></div>
+    <span class="validate-tip-text">
+        <i class="fa fa-times-circle" aria-hidden="true" style="color: red;"></i>
+        日期不能为空!
+    </span>
+</div>
+<div style="width: fit-content">
+    <span class="calendar-input-wrapper">
+        <input type="text" class="calendar-input" readonly/>
+    </span>
+
+    <div class="calendar" tabindex="1">
+        <header class="month-box"><span class="left-arrow"><</span>
+            <select>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+            </select>月
+            <span class="right-arrow">></span></header>
+        <table class="calendar-table">
+            <tr>
+                <td data-day="1">1</td>
+                <td data-day="2">2</td>
+                <td data-day="3">3</td>
+                <td data-day="4">4</td>
+                <td data-day="5">5</td>
+                <td data-day="6">6</td>
+                <td data-day="7">7</td>
+            </tr>
+            <tr>
+                <td data-day="8">8</td>
+                <td data-day="9">9</td>
+                <td data-day="10">10</td>
+                <td data-day="11">11</td>
+                <td data-day="12">12</td>
+                <td data-day="13">13</td>
+                <td data-day="14">14</td>
+            </tr>
+            <tr>
+                <td data-day="15">15</td>
+                <td data-day="16">16</td>
+                <td data-day="17">17</td>
+                <td data-day="18">18</td>
+                <td data-day="19">19</td>
+                <td data-day="20">20</td>
+                <td data-day="21">21</td>
+            </tr>
+            <tr>
+                <td data-day="22">22</td>
+                <td data-day="23">23</td>
+                <td data-day="24">24</td>
+                <td data-day="25">25</td>
+                <td data-day="26">26</td>
+                <td data-day="27">27</td>
+                <td data-day="28">28</td>
+            </tr>
+            <tr>
+                <td data-day="29">29</td>
+                <td data-day="30">30</td>
+                <td data-day="31">31</td>
+            </tr>
+        </table>
+        <div>
+            <button id="calendar-confirm-button" class="calendar-button"
+                    style="background: #2e94f8;color: white;float: right;margin-left: 11px;">确定
+            </button>
+            <button id="calendar-cancel-button" class="calendar-button"
+                    style="background:white;float: right;margin-left: 11px;">取消
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+<style>
+    .month-box {
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .left-arrow {
+        float: left;
+        color: grey;
+        cursor: pointer;
+    }
+
+    .right-arrow {
+        float: right;
+        color: grey;
+        cursor: pointer;
+    }
+    .my-calendar{
+        font-size: 14px;
+    }
+    .calendar {
+        z-index: 128;
+        position: absolute;
+        color: black;
+        width: fit-content;
+        padding: 11px;
+        border-radius: 5px;
+        background: white;
+        box-shadow: 0px 0px 5px;
+    }
+
+    .calendar:focus {
+        outline: none;
+    }
+
+    .calendar-input-wrapper {
+        position: relative;
+        border: 1px solid #D4D4D4;
+        background-color: #fff;
+        vertical-align: middle;
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        padding: 0;
+        height: 28px;
+    }
+
+    .calendar-input {
+        outline: 0;
+        border: 0;
+        margin: 0;
+        padding: 4px;
+        white-space: normal;
+        vertical-align: top;
+        outline-style: none;
+        resize: none;
+        width: 60px;
+    }
+
+    .calendar-input-validate-failed {
+        border: 1px solid red;
+    }
+
+    .calendar .calendar-table {
+        border-bottom: 1px solid #eeeeee;
+        padding: 15px 0;
+        margin-bottom: 11px;
+        text-align: center;
+        box-sizing: content-box;
+        user-select: none;
+    }
+
+    .calendar .calendar-table td {
+        cursor: pointer;
+        border-radius: 3px;
+        padding: 0.3em;
+    }
+
+    .calendar-table td:hover {
+        background: #d5eafd;
+        color: white;
+    }
+
+    .calendar-table .day-selected {
+        background: #2e94f8;
+        color: white;
+    }
+
+    .calendar-button {
+        display: inline-block;
+        line-height: 22px;
+        font-weight: 400;
+        line-height: 22px;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-image: none;
+        border: 1px solid #d4cdcd;
+        border-radius: 4px;
+    }
+
+    .validate-tip {
+        position: absolute;
+        top: -28px;
+        z-index: 1024;
+        display: none;
+    }
+
+    .validate-tran {
+        position: absolute;
+        width: 0px;
+        height: 0px;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 0;
+        border-top: 10px solid #f8eeee;
+        left: 0;
+        right: 0;
+        margin: auto;
+        bottom: -11px;
+    }
+
+    .validate-tip-text {
+        padding: 5px;
+        border: 1px solid #eeeeee;
+        color: black;
+        background: #f8eeee;
+    }
+</style>
+</body>
+</html>
