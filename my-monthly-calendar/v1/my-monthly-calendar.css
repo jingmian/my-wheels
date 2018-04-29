@@ -1,0 +1,138 @@
+.month-box {
+    text-align: center;
+    font-weight: bold;
+}
+
+.left-arrow {
+    float: left;
+    color: grey;
+    cursor: pointer;
+}
+
+.right-arrow {
+    float: right;
+    color: grey;
+    cursor: pointer;
+}
+
+.my-calendar {
+    font-size: 14px;
+    display: inline-block;
+    position: relative;
+    user-select: none;
+}
+
+.calendar-wrapper {
+    display: inline-block;
+    position: absolute;
+}
+
+.calendar {
+    z-index: 128;
+    position: absolute;
+    color: black;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0px 0px 5px;
+    margin-top: .5em;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s
+}
+
+.calendar .main {
+    padding: 11px;
+}
+
+.calendar-input-wrapper {
+    position: relative;
+    border: 1px solid #D4D4D4;
+    background-color: #fff;
+    vertical-align: middle;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0;
+    height: 28px;
+}
+
+.calendar-input {
+    height: 28px;
+    outline: 0;
+    border: 0;
+    margin: 0;
+    padding: 0 4px;
+    white-space: normal;
+    vertical-align: top;
+    outline-style: none;
+    resize: none;
+}
+
+.calendar-input-validate-failed {
+    border: 1px solid red;
+}
+
+.calendar .calendar-table {
+    margin: .5em 0;
+    text-align: center;
+    box-sizing: content-box;
+    border: 1px solid transparent;
+    border-radius: 5px;
+}
+
+.calendar .calendar-table td {
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 0.3em;
+}
+
+.calendar-table td:hover {
+    background: #d5eafd;
+    color: white;
+}
+
+.calendar-table .day-selected {
+    background: #2e94f8;
+    color: white;
+}
+
+.calendar-footer {
+    border-top: 1px solid #eeeeee;
+    margin-top: .5em;
+    padding-top: .5em;
+    overflow: hidden;
+}
+
+.calendar-button {
+    display: inline-block;
+    line-height: 22px;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid #d4cdcd;
+    border-radius: 4px;
+    padding: 0 1em;
+}
+
+.confirm-button {
+    background: #2e94f8;
+    color: white;
+    float: right;
+    margin-left: 11px;
+}
+
+.cancel-button {
+    background: white;
+    float: right;
+}
+
+.validate-tip-text {
+    color: red;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .25s;
+}
