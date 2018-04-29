@@ -238,7 +238,7 @@ window.myCarousel = (function () {
     }
 
     function initActiveIndicators (guide) {
-      guide.querySelectorAll('[data-index]').forEach(function (item) {
+      guide.querySelectorAll('[data-index]').forEach(function (item) {//ie11 throw error TODO
         var index = stringToNumber(item.dataset.index);
         if (index === curIndex) {
           item.style.borderColor = '#328bff';
