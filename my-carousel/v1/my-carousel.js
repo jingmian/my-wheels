@@ -162,6 +162,8 @@ window.myCarousel = (function () {
         cb = next, arg = i - curIndex;
       } else if (i < curIndex) {
         cb = previous, arg = curIndex - i;
+      } else {
+        return;
       }
 
       terminalPlay(cb, arg);
