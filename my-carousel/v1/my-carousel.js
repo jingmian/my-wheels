@@ -16,7 +16,7 @@ window.myCarousel = (function () {
   var LEFT = 0, RIGHT = 1;
 
   function initCarousel (options) {
-    var urls = []//只有2张图片怎么办 TODO
+    var urls = [];
     var boxes = [];
     var curIndex = 0;
     var isAutoPlay = true;
@@ -144,7 +144,6 @@ window.myCarousel = (function () {
     function buildImgUrl (boxes) {
       boxes[0].imgEL.src = urls[curIndex === 0 ? urls.length - 1 : curIndex - 1];
       boxes[2].imgEL.src = urls[curIndex === urls.length - 1 ? 0 : curIndex + 1];
-      isMoving = false;
     }
 
     function onNext () {
@@ -234,7 +233,10 @@ window.myCarousel = (function () {
       var guide = boxes[0].el.parentNode.querySelector('.guide');
 
       initActiveIndicators(guide);
-      setTimeout(buildImgUrl, 500, boxes);
+      setTimeout(function () {
+        buildImgUrl(boxes);
+        isMoving = false;
+      }, 500);
     }
 
     function initActiveIndicators (guide) {
