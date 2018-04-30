@@ -15,7 +15,7 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      urls: ['/static/1.jpeg', '/static/2.jpeg', '/static/3.jpeg', '/static/4.jpeg','/static/logo.png']
+      urls: ['https://blank121.github.io/my-wheels/my-carousel/img/1.jpg', 'https://blank121.github.io/my-wheels/my-carousel/img/2.jpg', 'https://blank121.github.io/my-wheels/my-carousel/img/3.jpg', 'https://blank121.github.io/my-wheels/my-carousel/img/4.jpg','https://blank121.github.io/my-wheels/my-carousel/img/5.jpg']
     }
   },
   methods: {
