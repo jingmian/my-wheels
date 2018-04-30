@@ -30,10 +30,15 @@ window.myCarousel = (function () {
       if (!options.el) {
         throw new Error('el does not exist');
       }
+      //初始化数据
       initData(options);
+      //构造dom
       initDom(options);
+      //渲染主图
       boxes[1].imgEL.src = urls[curIndex];
+      //渲染左右两张图
       buildImgUrl(boxes);
+      //如果开启了自动播放
       isAutoPlay && (timerId = setTimeout(autoPlay, cycle))
     }
 
@@ -133,6 +138,7 @@ window.myCarousel = (function () {
       jumpTo(e.target.dataset.index);
     }
 
+    //暂停自动播放，执行cb
     function terminalPlay (cb, arg) {
       console.log(timerId);
       isAutoPlay && clearTimeout(timerId);

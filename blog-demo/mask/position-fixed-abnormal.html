@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>T</title>
+</head>
+<body>
+<div class="container">
+    <div class="mask"><h1>非正常全局遮罩</h1></div>
+</div>
+</body>
+</html>
+<style>
+    .container {
+        height: 111px;
+        transform: translateX(1px);
+    }
+
+    .mask {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, .5);
+        z-index: 999;
+        color: white;
+    }
+</style>
