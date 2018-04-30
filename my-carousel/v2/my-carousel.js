@@ -6,11 +6,13 @@ window.MyCarousel = function MyCarousel (el, options) {
   var boxes = [];
   var curIndex = 0;
   var isAutoPlay = true;
+  var isHoverPaused = true;
   var cycle = 2222//ms
   var isMoving = false;//全局状态控制
   var timerId = null;
   var changeCallback = null;
   var guide = null;
+  var cacheIndex = null;//缓冲一次操作;防止isMoving为true时，用户点击无反应
   if (!el) {
     throw new Error('el does not exist');
   }
@@ -31,6 +33,7 @@ window.MyCarousel = function MyCarousel (el, options) {
     urls = options.urls;
     curIndex = options.curIndex || 0;
     isAutoPlay = typeof options.isAutoPlay === 'boolean' ? options.isAutoPlay : true;
+    isHoverPaused = typeof options.isHoverPaused === 'boolean' ? options.isHoverPaused : true;
     cycle = typeof options.cycle === 'number' ? options.cycle : 2222;
     changeCallback = options.change || noop;
   }
@@ -72,6 +75,8 @@ window.MyCarousel = function MyCarousel (el, options) {
     }
 
     function _buildImgWrappers (main) {
+      main.addEventListener('mouseenter', mouseenterHandler);
+      main.addEventListener('mouseleave', mouseleaveHandler);
       for (var i = 1; i <= 3; i += 1) {
         var imgWrapper = document.createElement('div');
         imgWrapper.classList.add('img-wrapper');
@@ -111,33 +116,57 @@ window.MyCarousel = function MyCarousel (el, options) {
     }
   }
 
+  function mouseenterHandler () {
+    isHoverPaused && timerId && clearTimeout(timerId);
+  }
+
+  function mouseleaveHandler () {
+    isHoverPaused && isAutoPlay && (timerId = setTimeout(autoPlay, cycle))
+  }
+
   function guideClickHandler (e) {
-    //isNullOrUndefined
-    if (isMoving) {
-      return;
-    }
     if (typeof e.target.dataset.index === 'undefined' || (typeof e.target.dataset.index === 'object' && !e.target.dataset.index)) {
       return;
     }
     jumpTo(e.target.dataset.index);
   }
 
-
+  function pause () {
+    
+  }
   function buildImgUrl (boxes) {
     boxes[0].imgEL.src = urls[curIndex === 0 ? urls.length - 1 : curIndex - 1];
     boxes[2].imgEL.src = urls[curIndex === urls.length - 1 ? 0 : curIndex + 1];
   }
 
   function onNext () {
+    if (isMoving) {
+      if (!cacheIndex && cacheIndex !== 0) {
+        cacheIndex = curIndex + 1;
+        cacheIndex >= urls.length && (cacheIndex -= urls.length);
+      }
+      return;
+    }
     terminalPlay(next);
   }
 
   function onPrevious () {
+    if (isMoving) {
+      if (!cacheIndex || cacheIndex === 0) {
+        cacheIndex = curIndex - 1;
+        cacheIndex < 0 && (cacheIndex += urls.length)
+      }
+      return;
+    }
     terminalPlay(previous);
   }
 
   //跳到第几张
   function jumpTo (i) {
+    if (isMoving) {
+      (!cacheIndex || cacheIndex === 0) && (cacheIndex = i);
+      return;
+    }
     var cb = null, arg = null;
     if (i > curIndex) {
       cb = next, arg = i - curIndex;
@@ -151,9 +180,6 @@ window.MyCarousel = function MyCarousel (el, options) {
   }
 
   function previous (step) {//step移动步数
-    if (isMoving) {
-      return;
-    }
     !step && step !== 0 && (step = 1);//step不存在，默认移动1一步
     var oldIndex = curIndex;
     curIndex = curIndex - step;
@@ -178,9 +204,8 @@ window.MyCarousel = function MyCarousel (el, options) {
 
     var oldIndex = curIndex;
     curIndex = curIndex + step;
-    if (curIndex >= urls.length) {
-      curIndex -= urls.length
-    }
+    curIndex >= urls.length && (curIndex -= urls.length);
+
     if (changeCallback(curIndex, oldIndex) === false) {
       return;
     }
@@ -191,7 +216,7 @@ window.MyCarousel = function MyCarousel (el, options) {
   }
 
   function terminalPlay (cb, arg) {
-    isAutoPlay && clearTimeout(timerId);
+    isAutoPlay && timerId && clearTimeout(timerId);
     cb(arg);
     isAutoPlay && (timerId = setTimeout(autoPlay, cycle))
   }
@@ -223,6 +248,10 @@ window.MyCarousel = function MyCarousel (el, options) {
     setTimeout(function () {
       buildImgUrl(boxes);
       isMoving = false;
+      if (cacheIndex) {
+        jumpTo(cacheIndex);
+        cacheIndex = null;
+      }
     }, 500);//这里500与动画时间保持一致
   }
 

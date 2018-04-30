@@ -5,8 +5,8 @@
     <p>v2:</p>
     <ul>
         <li>调整了代码结构</li>
-        <li>优化用户鼠标hover图片时，暂停自动播放，TODO</li>
-        <li>优化用户主动点击切换，TODO</li>
-        <li>扩展开放的api:pause(),getIndex(),destroy(),TODO</li>
+        <li>优化用户鼠标hover图片时，暂停自动播放</li>
+        <li>优化用户主动点击切换，TODO,节流</li>
+        <li>扩展开放的api:destroy(),TODO</li>
     </ul>
 </section>

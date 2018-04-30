@@ -41,7 +41,8 @@ function log (newindex, oldindex) {
 var carousel1 = new MyCarousel(document.getElementById('div1'), {
   urls: ['../img/1.jpg', '../img/2.jpg', '../img/3.jpg', '../img/4.jpg', '../img/5.jpg'],//
   curIndex: 0,//urls数组的下标，0是第一个,
-  cycle: 5333
+  cycle: 5333,
+  isHoverPaused:false
 });
 var carousel2 = new MyCarousel(document.getElementById('div2'), {
   urls: ['../img/6.jpg', '../img/7.jpg', '../img/8.jpg', '../img/9.jpg'],//
