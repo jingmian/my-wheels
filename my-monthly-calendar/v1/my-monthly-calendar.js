@@ -174,7 +174,7 @@ window.MyMonthlyCalendar = function MyMonthlyCalendar (el, options) {
     var monthDay = input.value.split('-');
     month = Number(monthDay[0]);
     select.value = month;
-    day = monthDay[1];
+    day = Number(monthDay[1]);
 
     initMonthStyles();
     checkDay()
