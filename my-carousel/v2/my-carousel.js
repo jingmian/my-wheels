@@ -132,8 +132,9 @@ window.MyCarousel = function MyCarousel (el, options) {
   }
 
   function pause () {
-    
+
   }
+
   function buildImgUrl (boxes) {
     boxes[0].imgEL.src = urls[curIndex === 0 ? urls.length - 1 : curIndex - 1];
     boxes[2].imgEL.src = urls[curIndex === urls.length - 1 ? 0 : curIndex + 1];
@@ -274,6 +275,24 @@ window.MyCarousel = function MyCarousel (el, options) {
     isAutoPlay && (timerId = setTimeout(autoPlay, cycle))
   }
 
+  function destroy () {
+    //移除各种事件监听
+    isAutoPlay = false;
+    timerId && clearTimeout(timerId);
+    var next = el.querySelector('.next');
+    next.removeEventListener('click', onNext);
+
+    var previous = el.querySelector('.previous');
+    previous.removeEventListener('click', onPrevious);
+
+    var main = el.querySelector('.main');
+    main.removeEventListener('mouseenter', mouseenterHandler);
+    main.removeEventListener('mouseleave', mouseleaveHandler);
+
+    var guide = el.querySelector('.guide');
+    guide.removeEventListener('click', guideClickHandler);//委托
+  }
+
   function noop () {
   }
 
@@ -290,6 +309,7 @@ window.MyCarousel = function MyCarousel (el, options) {
   return {
     jumpTo: jumpTo,//考虑如果ismoveing;拦截了用户调用的jumpTo怎么办,维护一个调用队列？ TODO
     next: onNext,
-    previous: onPrevious
+    previous: onPrevious,
+    destroy: destroy
   }
 }
