@@ -1,5 +1,15 @@
 window.MyCarousel = function MyCarousel (el, options) {
   "use strict";
+
+  /** {
+    *   el://required
+    *   urls:[]//required
+    *   curIndex:0 //初始显示第几张 0开始
+    *   isAutoPlay:true//是否自动播放
+    *   cycle:999//切换时间间隔（误差几毫秒）
+    *   change:function(newIndex,oldIndex);（即将切换之前的回调）return false表示阻止本次切换
+    *  }
+   */
   var LEFT = 0, RIGHT = 1;
 
   var urls = []//只有1张图片怎么办 TODO
