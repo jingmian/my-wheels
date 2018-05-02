@@ -14,10 +14,10 @@ window.MyMonthlyCalendar = function MyMonthlyCalendar (el, options) {
   }
 
   /*
- * {
- *   inputWidth:213(单位px)
- * }
- * */
+   * {
+   *   inputWidth:213(单位px)
+   * }
+   * */
   options = options || {};
   init(options);
 
@@ -152,7 +152,7 @@ window.MyMonthlyCalendar = function MyMonthlyCalendar (el, options) {
     select.value = month;
 
     initMonthStyles();
-    resetDay();
+    initDay();
   }
 
   function previousMonth () {
@@ -163,7 +163,7 @@ window.MyMonthlyCalendar = function MyMonthlyCalendar (el, options) {
     select.value = month;
 
     initMonthStyles();
-    resetDay();
+    initDay();
   }
 
   function initData () {
@@ -171,13 +171,37 @@ window.MyMonthlyCalendar = function MyMonthlyCalendar (el, options) {
       reset();
       return;
     }
-    var monthDay = input.value.split('-');
-    month = Number(monthDay[0]);
-    select.value = month;
-    day = Number(monthDay[1]);
+    initMonth();
+    initDay();
+  }
 
-    initMonthStyles();
-    checkDay()
+  function initMonth () {
+    if (!input || !input.value) {
+      return;
+    }
+    var monthDay = input.value.split('-');
+
+    var finalMonth = Number(monthDay[0]);
+    if (finalMonth === month) {
+      select.value = month;
+      initMonthStyles();
+    } else {
+      resetMonth();
+    }
+  }
+
+  function initDay () {
+    if (!input || !input.value) {
+      return;
+    }
+    var monthDay = input.value.split('-');
+    var finalMonth = Number(monthDay[0]);
+    if (finalMonth === month) {
+      day = Number(monthDay[1]);
+      checkDay();
+    } else {
+      resetDay();
+    }
   }
 
   function reset () {
@@ -204,7 +228,7 @@ window.MyMonthlyCalendar = function MyMonthlyCalendar (el, options) {
       dayEl.classList.add('day-selected');
     } else {
       var td = table.querySelector('[data-day="' + day + '"]');
-      td.classList.add('day-selected');
+      td && td.classList.add('day-selected');
     }
   }
 
@@ -257,13 +281,10 @@ window.MyMonthlyCalendar = function MyMonthlyCalendar (el, options) {
   }
 
   function selectHandler (e) {//initial
-    var cur = Number(e.target.value);
-    if (cur === month) {
-      return;
-    }
-    month = cur;
+    console.log('select');
+    month = Number(e.target.value);
     initMonthStyles();
-    resetDay();
+    initDay();
   }
 
   function showValidateText () {

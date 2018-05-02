@@ -80,6 +80,7 @@
     box-sizing: content-box;
     border: 1px solid transparent;
     border-radius: 5px;
+    border-collapse: separate;
 }
 
 .calendar .calendar-table td {
