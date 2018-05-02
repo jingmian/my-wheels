@@ -4,5 +4,6 @@
     <ul>
         <li>获取值:getValue</li>
         <li>重置:reset</li>
+        <li>2018-05-02：增加输入框focus样式，优化体验</li>
     </ul>
 </section>
