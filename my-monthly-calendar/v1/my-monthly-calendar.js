@@ -222,6 +222,7 @@ window.MyMonthlyCalendar = function MyMonthlyCalendar (el, options) {
     if (calendarDialog.style.maxHeight) {
       return;
     }
+    input.parentElement.classList.add('calendar-input-wrapper-focused');
     //reset();
     openDialog();
   }
@@ -240,6 +241,7 @@ window.MyMonthlyCalendar = function MyMonthlyCalendar (el, options) {
     document.removeEventListener('click', calendarBlurHandler);
     hideValidateText();
     calendarDialog.style.maxHeight = null;
+    input.parentElement.classList.remove('calendar-input-wrapper-focused');
   }
 
   function tableHandler (e) {//

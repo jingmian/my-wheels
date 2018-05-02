@@ -6,12 +6,14 @@
     <link href="./my-monthly-calendar.css" rel="stylesheet">
 </head>
 <body>
-<div id="div1"></div>
+<span id="div1"></span> -
+<span id="div2"></span>
 <script src="./my-monthly-calendar.js"></script>
 <script>
 
 
-var c = new MyMonthlyCalendar(document.getElementById('div1'))
+var c1 = new MyMonthlyCalendar(document.getElementById('div1'))
+var c2 = new MyMonthlyCalendar(document.getElementById('div2'), {inputWidth: 122});
 </script>
 <style>
 

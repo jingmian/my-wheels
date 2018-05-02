@@ -55,7 +55,9 @@
     padding: 0;
     height: 28px;
 }
-
+.calendar-input-wrapper-focused {
+    border-color: #7b7bdf;
+}
 .calendar-input {
     height: 28px;
     outline: 0;
