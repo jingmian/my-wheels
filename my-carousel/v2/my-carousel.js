@@ -16,17 +16,38 @@ window.MyCarousel = function MyCarousel (el, options) {
   var boxes = [];
   var curIndex = 0;
   var isAutoPlay = true;
-  var isHoverPaused = true;
   var cycle = 2222//ms
-  var isMoving = false;//全局状态控制
   var timerId = null;
   var changeCallback = null;
   var guide = null;
-  var cacheIndex = null;//缓冲一次操作;防止isMoving为true时，用户点击无反应
-  if (!el) {
-    throw new Error('el does not exist');
+  var throttleOption = {
+    leading: true,  // 第一次调用事件是否立即执行
+    trailing: true // 最后一次延迟调用是否执行
   }
-  init(options);
+
+  var onNext = _throttle(function () {
+    terminalPlay(next);
+  }, 1500, throttleOption);
+
+
+  var onPrevious = _throttle(function () {
+    terminalPlay(previous);
+  }, 1500, throttleOption);
+
+
+  //跳到第几张
+  var jumpTo = _throttle(function (i) {
+    var cb = null, arg = null;
+    if (i > curIndex) {
+      cb = next, arg = i - curIndex;
+    } else if (i < curIndex) {
+      cb = previous, arg = curIndex - i;
+    } else {
+      return;
+    }
+
+    terminalPlay(cb, arg);
+  }, 1500, throttleOption);
 
   function init (options) {
     initData(options);
@@ -43,7 +64,6 @@ window.MyCarousel = function MyCarousel (el, options) {
     urls = options.urls;
     curIndex = options.curIndex || 0;
     isAutoPlay = typeof options.isAutoPlay === 'boolean' ? options.isAutoPlay : true;
-    isHoverPaused = typeof options.isHoverPaused === 'boolean' ? options.isHoverPaused : true;
     cycle = typeof options.cycle === 'number' ? options.cycle : 2222;
     changeCallback = options.change || noop;
   }
@@ -127,11 +147,11 @@ window.MyCarousel = function MyCarousel (el, options) {
   }
 
   function mouseenterHandler () {
-    isHoverPaused && timerId && clearTimeout(timerId);
+    timerId && clearTimeout(timerId);
   }
 
   function mouseleaveHandler () {
-    isHoverPaused && isAutoPlay && (timerId = setTimeout(autoPlay, cycle))
+    isAutoPlay && (timerId = setTimeout(autoPlay, cycle))
   }
 
   function guideClickHandler (e) {
@@ -150,45 +170,6 @@ window.MyCarousel = function MyCarousel (el, options) {
     boxes[2].imgEL.src = urls[curIndex === urls.length - 1 ? 0 : curIndex + 1];
   }
 
-  function onNext () {
-    if (isMoving) {
-      if (!cacheIndex && cacheIndex !== 0) {
-        cacheIndex = curIndex + 1;
-        cacheIndex >= urls.length && (cacheIndex -= urls.length);
-      }
-      return;
-    }
-    terminalPlay(next);
-  }
-
-  function onPrevious () {
-    if (isMoving) {
-      if (!cacheIndex || cacheIndex === 0) {
-        cacheIndex = curIndex - 1;
-        cacheIndex < 0 && (cacheIndex += urls.length)
-      }
-      return;
-    }
-    terminalPlay(previous);
-  }
-
-  //跳到第几张
-  function jumpTo (i) {
-    if (isMoving) {
-      (!cacheIndex || cacheIndex === 0) && (cacheIndex = i);
-      return;
-    }
-    var cb = null, arg = null;
-    if (i > curIndex) {
-      cb = next, arg = i - curIndex;
-    } else if (i < curIndex) {
-      cb = previous, arg = curIndex - i;
-    } else {
-      return;
-    }
-
-    terminalPlay(cb, arg);
-  }
 
   function previous (step) {//step移动步数
     !step && step !== 0 && (step = 1);//step不存在，默认移动1一步
@@ -199,7 +180,6 @@ window.MyCarousel = function MyCarousel (el, options) {
     if (changeCallback(curIndex, oldIndex) === false) {
       return;
     }
-    isMoving = true;
     var footer = boxes.pop();
     boxes.unshift(footer);
 
@@ -207,9 +187,6 @@ window.MyCarousel = function MyCarousel (el, options) {
   }
 
   function next (step) {
-    if (isMoving) {
-      return;
-    }
 
     !step && step !== 0 && (step = 1);//i不存在，默认移动1一步
 
@@ -220,7 +197,6 @@ window.MyCarousel = function MyCarousel (el, options) {
     if (changeCallback(curIndex, oldIndex) === false) {
       return;
     }
-    isMoving = true;
     var head = boxes.shift();
     boxes.push(head);
     move(boxes, RIGHT);
@@ -258,12 +234,7 @@ window.MyCarousel = function MyCarousel (el, options) {
     initActiveIndicators();
     setTimeout(function () {
       buildImgUrl(boxes);
-      isMoving = false;
-      if (cacheIndex) {
-        jumpTo(cacheIndex);
-        cacheIndex = null;
-      }
-    }, 500);//这里500与动画时间保持一致
+    }, 1500);//这里500与动画时间保持一致
   }
 
   function initActiveIndicators () {
@@ -278,9 +249,6 @@ window.MyCarousel = function MyCarousel (el, options) {
   }
 
   function autoPlay () {
-    if (isMoving) {
-      return;
-    }
     next();
     isAutoPlay && (timerId = setTimeout(autoPlay, cycle))
   }
@@ -316,6 +284,45 @@ window.MyCarousel = function MyCarousel (el, options) {
     return Number(str);
   }
 
+  function _throttle (fn, wait, options) {
+    var timeout, context, args, result
+    var previous = 0
+    if (!options) options = {}
+
+    var later = function () {
+      previous = options.leading === false ? 0 : +new Date()
+      timeout = null
+      result = fn.apply(context, args)
+      if (!timeout) context = args = null
+    }
+
+    var throttled = function () {
+      var now = +new Date()
+      if (!previous && options.leading === false) previous = now
+      var remaining = wait - (now - previous)
+      context = this
+      args = arguments
+      if (remaining <= 0 || remaining > wait) {
+        if (timeout) {
+          clearTimeout(timeout)
+          timeout = null
+        }
+        previous = now
+        result = fn.apply(context, args)
+        if (!timeout) context = args = null
+      } else if (!timeout && options.trailing !== false) {
+        timeout = setTimeout(later, remaining)
+      }
+      return result
+    }
+
+    return throttled
+  }
+
+  if (!el) {
+    throw new Error('el does not exist');
+  }
+  init(options);
   return {
     jumpTo: jumpTo,//考虑如果ismoveing;拦截了用户调用的jumpTo怎么办,维护一个调用队列？ TODO
     next: onNext,
