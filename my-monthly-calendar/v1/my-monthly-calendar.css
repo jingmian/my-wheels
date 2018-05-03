@@ -27,7 +27,7 @@
     position: absolute;
 }
 
-.calendar {
+.my-calendar .monthly-calendar {
     z-index: 128;
     position: absolute;
     color: black;
@@ -40,7 +40,7 @@
     transition: max-height 0.25s
 }
 
-.calendar .main {
+.monthly-calendar .main {
     padding: 11px;
 }
 
@@ -55,9 +55,7 @@
     padding: 0;
     height: 28px;
 }
-.calendar-input-wrapper-focused {
-    border-color: #7b7bdf;
-}
+
 .calendar-input {
     height: 28px;
     outline: 0;
@@ -68,13 +66,14 @@
     vertical-align: top;
     outline-style: none;
     resize: none;
+    font-size: 12px;
 }
 
 .calendar-input-validate-failed {
     border: 1px solid red;
 }
 
-.calendar .calendar-table {
+.monthly-calendar .calendar-table {
     margin: .5em 0;
     text-align: center;
     box-sizing: content-box;
@@ -82,8 +81,10 @@
     border-radius: 5px;
     border-collapse: separate;
 }
-
-.calendar .calendar-table td {
+.calendar-input-wrapper-focused {
+    border-color: #7b7bdf;
+}
+.monthly-calendar .calendar-table td {
     cursor: pointer;
     border-radius: 3px;
     padding: 0.3em;
@@ -133,9 +134,11 @@
     float: right;
 }
 
-.validate-tip-text {
+.monthly-calendar-validate-tip-text {
     color: red;
     max-height: 0;
     overflow: hidden;
     transition: max-height .25s;
+    padding: 0;
+    margin: 0;
 }

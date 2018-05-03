@@ -1,4 +1,4 @@
-window.MyMonthlyCalendar = function MyMonthlyCalendar (el, options) {
+!window.MyMonthlyCalendar && (window.MyMonthlyCalendar = function MyMonthlyCalendar (el, options) {
   var MONTHS = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   var month = 1;
   var day = null;
@@ -33,7 +33,7 @@ window.MyMonthlyCalendar = function MyMonthlyCalendar (el, options) {
     myCalendar.appendChild(_initInput(options));
 
     calendarDialog = document.createElement('div');
-    calendarDialog.classList.add('calendar');
+    calendarDialog.classList.add('monthly-calendar');
 
     var calendarMain = document.createElement('div');
     calendarMain.classList.add('main');
@@ -56,7 +56,7 @@ window.MyMonthlyCalendar = function MyMonthlyCalendar (el, options) {
       input.classList.add('calendar-input');
       input.readOnly = true;
       input.type = 'text';
-      input.style.width = options.inputWidth || 99 + 'px';
+      input.style.width = (options.inputWidth || 99) + 'px';
 
       input.addEventListener('focus', inputFocusHandler)
       inputWrapper.appendChild(input);
@@ -117,7 +117,7 @@ window.MyMonthlyCalendar = function MyMonthlyCalendar (el, options) {
 
     function _initValidateText (options) {
       validateNode = document.createElement('div');
-      validateNode.classList.add('validate-tip-text');
+      validateNode.classList.add('monthly-calendar-validate-tip-text');
       validateNode.innerText = '请选择一个日期！';
       return validateNode;
     }
@@ -171,12 +171,16 @@ window.MyMonthlyCalendar = function MyMonthlyCalendar (el, options) {
       reset();
       return;
     }
+    var monthDay = input.value.split('-');
+    month = Number(monthDay[0]);
+    day = Number(monthDay[1]);
     initMonth();
     initDay();
   }
 
   function initMonth () {
     if (!input || !input.value) {
+      resetMonth();
       return;
     }
     var monthDay = input.value.split('-');
@@ -192,6 +196,7 @@ window.MyMonthlyCalendar = function MyMonthlyCalendar (el, options) {
 
   function initDay () {
     if (!input || !input.value) {
+      resetDay();
       return;
     }
     var monthDay = input.value.split('-');
@@ -281,7 +286,6 @@ window.MyMonthlyCalendar = function MyMonthlyCalendar (el, options) {
   }
 
   function selectHandler (e) {//initial
-    console.log('select');
     month = Number(e.target.value);
     initMonthStyles();
     initDay();
@@ -322,4 +326,4 @@ window.MyMonthlyCalendar = function MyMonthlyCalendar (el, options) {
     getValue: getValue,
     reset: reset
   }
-}
+})
