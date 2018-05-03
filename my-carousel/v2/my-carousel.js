@@ -42,7 +42,7 @@ window.MyCarousel = function MyCarousel (el, options) {
     } else if (i < curIndex) {
       previous(curIndex - i);
     }
-  }, 1500, throttleOption);
+  }, 500, throttleOption);
 
   function init (options) {
     initData(options);
@@ -219,7 +219,7 @@ window.MyCarousel = function MyCarousel (el, options) {
     initActiveIndicators();
     setTimeout(function () {
       buildImgUrl(boxes);
-    }, 1500);//这里500与动画时间保持一致
+    }, 500);//这里500与动画时间保持一致
   }
 
   function initActiveIndicators () {
