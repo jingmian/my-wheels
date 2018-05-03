@@ -23,11 +23,11 @@
     width: 100%;
 }
 
-main:hover .previous {
+.main:hover .previous {
     visibility: visible;
 }
 
-main:hover .next {
+.main:hover .next {
     visibility: visible;
 }
 

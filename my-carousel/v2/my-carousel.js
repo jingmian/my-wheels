@@ -16,7 +16,7 @@ window.MyCarousel = function MyCarousel (el, options) {
   var boxes = [];
   var curIndex = 0;
   var isAutoPlay = true;
-  var cycle = 2222//ms
+  var cycle = 3333//ms
   var timerId = null;
   var changeCallback = null;
   var guide = null;
@@ -25,28 +25,23 @@ window.MyCarousel = function MyCarousel (el, options) {
     trailing: true // 最后一次延迟调用是否执行
   }
 
-  var onNext = _throttle(function () {
-    terminalPlay(next);
-  }, 1500, throttleOption);
+  function onNext () {
+    jumpTo(curIndex + 1);
+  }
 
 
-  var onPrevious = _throttle(function () {
-    terminalPlay(previous);
-  }, 1500, throttleOption);
+  function onPrevious () {
+    jumpTo(curIndex - 1);
+  }
 
 
   //跳到第几张
   var jumpTo = _throttle(function (i) {
-    var cb = null, arg = null;
     if (i > curIndex) {
-      cb = next, arg = i - curIndex;
+      next(i - curIndex);
     } else if (i < curIndex) {
-      cb = previous, arg = curIndex - i;
-    } else {
-      return;
+      previous(curIndex - i);
     }
-
-    terminalPlay(cb, arg);
   }, 1500, throttleOption);
 
   function init (options) {
@@ -161,10 +156,6 @@ window.MyCarousel = function MyCarousel (el, options) {
     jumpTo(e.target.dataset.index);
   }
 
-  function pause () {
-
-  }
-
   function buildImgUrl (boxes) {
     boxes[0].imgEL.src = urls[curIndex === 0 ? urls.length - 1 : curIndex - 1];
     boxes[2].imgEL.src = urls[curIndex === urls.length - 1 ? 0 : curIndex + 1];
@@ -200,12 +191,6 @@ window.MyCarousel = function MyCarousel (el, options) {
     var head = boxes.shift();
     boxes.push(head);
     move(boxes, RIGHT);
-  }
-
-  function terminalPlay (cb, arg) {
-    isAutoPlay && timerId && clearTimeout(timerId);
-    cb(arg);
-    isAutoPlay && (timerId = setTimeout(autoPlay, cycle))
   }
 
 //执行切换 入口只有next和previous
