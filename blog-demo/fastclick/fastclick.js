@@ -104,6 +104,7 @@
 
 		// 判断当前运行环境和浏览器是否需要fastclick
 		if (FastClick.notNeeded(layer)) {
+			alert('notneed')
 			return;
 		}
 
