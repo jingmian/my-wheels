@@ -103,10 +103,10 @@
 		this.tapTimeout = options.tapTimeout || 700;
 
 		// 判断当前运行环境和浏览器是否需要fastclick
-		if (FastClick.notNeeded(layer)) {
-			alert('notneed')
-			return;
-		}
+		// if (FastClick.notNeeded(layer)) {
+		// 	alert('notneed')
+		// 	return;
+		// }
 
 		// Some old versions of Android don't have Function.prototype.bind
 		function bind(method, context) {
@@ -684,7 +684,7 @@
 	 */
 	FastClick.prototype.onClick = function(event) {
 		var permitted;
-		console.log('pctest1');
+		alert('pctest1');
 		// It's possible for another FastClick-like library delivered with third-party code to fire a click event before FastClick does (issue #44). In that case, set the click-tracking flag back to false and return early. This will cause onTouchEnd to return early.
 		if (this.trackingClick) {//1、出界会置为false，模拟了一次完成tap并阻止click也会置为false，3、避免三方库影响
 			this.targetElement = null;
