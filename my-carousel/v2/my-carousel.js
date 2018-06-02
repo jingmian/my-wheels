@@ -1,4 +1,4 @@
-window.MyCarousel = function MyCarousel (el, options) {
+!window.MyCarousel && (window.MyCarousel = function MyCarousel (el, options) {
   "use strict";
 
   /** {
@@ -314,4 +314,4 @@ window.MyCarousel = function MyCarousel (el, options) {
     previous: onPrevious,
     destroy: destroy
   }
-}
+})
