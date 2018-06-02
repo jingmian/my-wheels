@@ -6,9 +6,12 @@
 </head>
 <body>
 <script type="application/javascript" src="./fastclick.js"></script>
-<a onclick="alert('pctest2')">Google</a>
+<a  style="font-size: 32px">test</a>
 <script>
 FastClick.attach(document.body);
+document.querySelector('a').addEventListener('click', function () {
+  alert('pctest2');
+})
 </script>
 </body>
 </html>
