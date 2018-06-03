@@ -6,30 +6,44 @@
 </head>
 <body>
 <button class="a" style="font-size: 132px">test12</button>
-<p style="font-size: 32px"></p>
+<p class="p" style="font-size: 52px"></p>
 <script>
-var p = document.querySelector('p');
+var parent = document.querySelector('.p');
 document.querySelector('.a').addEventListener('touchstart', function () {
-  p.innerText = null;
-  p.innerText +='a.touchstart;;'
+  parent.innerHTML = null;
+  var p  = document.createElement('p');
+  p.innerText ='a.touchstart;;'
+  parent.appendChild(p)
 })
 document.querySelector('.a').addEventListener('touchmove', function () {
-  p.innerText +='a.touchmove;;'
+  var p  = document.createElement('p');
+  p.innerText ='a.touchstart;;'
+  parent.appendChild(p)
 })
 document.querySelector('.a').addEventListener('touchend', function () {
-  p.innerText +='a.touchend;;'
+  var p  = document.createElement('p');
+  p.innerText ='a.touchstart;;'
+  parent.appendChild(p)
 })
 document.querySelector('.a').addEventListener('mouseover', function () {
-  p.innerText +='a.mouseover;;'
+  var p  = document.createElement('p');
+  p.innerText ='a.touchstart;;'
+  parent.appendChild(p)
 })
 document.querySelector('.a').addEventListener('mouseenter', function () {
-  p.innerText +='a.mouseenter;;'
+  var p  = document.createElement('p');
+  p.innerText ='a.touchstart;;'
+  parent.appendChild(p)
 })
 document.querySelector('.a').addEventListener('mousedown', function () {
-  p.innerText +='a.mousedown;;'
+  var p  = document.createElement('p');
+  p.innerText ='a.touchstart;;'
+  parent.appendChild(p)
 })
 document.querySelector('.a').addEventListener('click', function () {
-  p.innerText +='a.click;;'
+  var p  = document.createElement('p');
+  p.innerText ='a.touchstart;;'
+  parent.appendChild(p)
 })
 </script>
 </body>
