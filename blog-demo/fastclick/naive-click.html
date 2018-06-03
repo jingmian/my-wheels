@@ -9,11 +9,12 @@
 <p class="p" style="font-size: 52px"></p>
 <script>
 var parent = document.querySelector('.p');
-document.querySelector('.a').addEventListener('touchstart', function () {
+document.querySelector('.a').addEventListener('touchstart', function (e) {
   parent.innerHTML = null;
   var p  = document.createElement('p');
   p.innerText ='a.touchstart;;'
   parent.appendChild(p)
+  e.preventDefault();
 })
 document.querySelector('.a').addEventListener('touchmove', function () {
   var p  = document.createElement('p');
