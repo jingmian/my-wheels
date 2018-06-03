@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button class="a" style="font-size: 132px">test12</button>
+<p class="p" style="font-size: 52px"></p>
+<script>
+var startTime;
+var parent = document.querySelector('.p');
+document.querySelector('.a').addEventListener('touchstart', function () {
+  startTime = Date.now();
+  parent.innerHTML = null;
+})
+document.querySelector('.a').addEventListener('touchend', function () {
+  var p  = document.createElement('p');
+  p.innerText = 'touch end :'+(Date.now() - startTime)+'ms';
+  parent.appendChild(p)
+})
+
+document.querySelector('.a').addEventListener('click', function () {
+  var p  = document.createElement('p');
+  p.innerText = 'click :'+(Date.now() - startTime)+'ms';
+  parent.appendChild(p)
+})
+</script>
+</body>
+</html>
