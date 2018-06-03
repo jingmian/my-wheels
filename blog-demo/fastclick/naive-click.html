@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a style="font-size: 132px">test12</a>
+<script>
+document.querySelector('a').addEventListener('touchstart', function () {
+  alert('a.touchstart');
+})
+document.querySelector('a').addEventListener('touchmove', function () {
+  alert('a.touchmove');
+})
+document.querySelector('a').addEventListener('touchend', function () {
+  alert('a.touchend');
+})
+document.querySelector('a').addEventListener('moveover', function () {
+  alert('a.moveover');
+})
+document.querySelector('a').addEventListener('moveenter', function () {
+  alert('a.moveenter');
+})
+document.querySelector('a').addEventListener('movedown', function () {
+  alert('a.movedown');
+})
+document.querySelector('a').addEventListener('click', function () {
+  alert('a.click');
+})
+</script>
+</body>
+</html>
