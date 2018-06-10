@@ -7,7 +7,12 @@
       <div class="lightbox-precious" @click="previous" v-bind:class="{ 'cursor-not-allowed': index <= 0 }"></div>
       <div class="lightbox-wrapper" ref="imgWrapper">
         <div class="lightbox-wrapper-transition" :style="{'width':width+'px','height':height+'px'}">
-          <img :src="curUrl" class="lightbox-img" v-on:load="onLoad($event)">
+          <img :src="curUrl" class="lightbox-img" v-show="!showLoading" v-on:load="onLoad($event)">
+          <div class="loading">
+            <svg class="circular" viewBox="25 25 50 50" v-show="showLoading">
+              <circle class="path" cx="50" cy="50" r="20" fill="none"/>
+            </svg>
+          </div>
           <strong class="tips">当前第 {{index+1}} 张，共 {{urls.length}} 张</strong>
         </div>
       </div>
@@ -17,16 +22,19 @@
 </template>
 
 <script>
+let unloadHandler = () => {
+}
 export default {
   name: 'Lightbox',
   data: function () {
     return {
       visible: false,
       closed: false,
+      showLoading: true,
       urls: [],
       index: 0,
-      height: 0,
-      width: 0
+      height: 333,
+      width: 333
     }
   },
   computed: {
@@ -41,12 +49,20 @@ export default {
       }
     }
   },
+  created: function () {
+    unloadHandler = this.onHidden.bind(this)
+    window.addEventListener('hashchange', unloadHandler)
+    window.addEventListener('popstate', unloadHandler)
+  },
   methods: {
     destroyElement: function () {
+      window.removeEventListener('hashchange', unloadHandler)
+      window.removeEventListener('popstate', unloadHandler)
       this.$el.parentNode.removeChild(this.$el)
       this.$destroy()
     },
     onHidden: function () {
+      console.log(1)
       this.closed = true
     },
     onLoad: function (e) {
@@ -63,19 +79,25 @@ export default {
         vm.width = Math.min(e.target.naturalWidth, imgWrapper.clientWidth)
         vm.height = e.target.naturalHeight / e.target.naturalWidth * vm.width
       }
+
+      vm.showLoading = false
     },
     previous () {
       if (this.index <= 0) {
         return
       }
-      this.index -= 1
+      this.changeIndex(this.index - 1)
     },
 
     next () {
       if (this.index >= this.urls.length - 1) {
         return
       }
-      this.index += 1
+      this.changeIndex(this.index + 1)
+    },
+    changeIndex (index) {
+      this.index = index
+      this.showLoading = true
     }
   }
 }
@@ -128,11 +150,42 @@ export default {
           width: 100%;
           height: 100%;
         }
-        .tips{
+        .tips {
           color: white;
           position: absolute;
           top: -2.5em;
           right: 0;
+        }
+        .loading {
+          position: relative;
+          top: 50%;
+          transform: translateY(-50%);
+          .circular {
+            height: 2em;
+            width: 2em;
+            .path {
+              animation: loading-dash 1.5s ease-in-out infinite;
+              stroke-dasharray: 90, 150;
+              stroke-dashoffset: 0;
+              stroke-width: 6;
+              stroke: #aaa;
+              stroke-linecap: round;
+            }
+          }
+          @keyframes loading-dash {
+            0% {
+              stroke-dasharray: 1, 200;
+              stroke-dashoffset: 0;
+            }
+            50% {
+              stroke-dasharray: 90, 150;
+              stroke-dashoffset: -40px;
+            }
+            100% {
+              stroke-dasharray: 90, 150;
+              stroke-dashoffset: -120px;
+            }
+          }
         }
       }
     }
