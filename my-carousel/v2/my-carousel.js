@@ -195,31 +195,32 @@
 
 //执行切换 入口只有next和previous
   function move (boxes, direction) {
+    window.requestAnimationFrame(function () {
 
-    boxes[1].imgEL.src = urls[curIndex];//先渲染主图
+      var leftNode = boxes[0].el;
+      leftNode.style.visibility = direction === RIGHT ? 'visible' : 'hidden';
+      !leftNode.classList.contains('left') && leftNode.classList.add('left');
+      leftNode.classList.remove('current');
+      leftNode.classList.remove('right');
 
-    var leftNode = boxes[0].el;
-    leftNode.style.visibility = direction === RIGHT ? 'visible' : 'hidden';
-    !leftNode.classList.contains('left') && leftNode.classList.add('left');
-    leftNode.classList.remove('current');
-    leftNode.classList.remove('right');
+      boxes[1].imgEL.src = urls[curIndex];//先渲染主图
+      var currentNode = boxes[1].el;
+      currentNode.style.visibility = 'visible';
+      !currentNode.classList.contains('current') && currentNode.classList.add('current');
+      currentNode.classList.remove('left');
+      currentNode.classList.remove('right');
 
-    var currentNode = boxes[1].el;
-    currentNode.style.visibility = 'visible';
-    !currentNode.classList.contains('current') && currentNode.classList.add('current');
-    currentNode.classList.remove('left');
-    currentNode.classList.remove('right');
+      var rightNode = boxes[2].el;
+      rightNode.style.visibility = direction === LEFT ? 'visible' : 'hidden';
+      !rightNode.classList.contains('right') && rightNode.classList.add('right');
+      rightNode.classList.remove('left');
+      rightNode.classList.remove('current');
 
-    var rightNode = boxes[2].el;
-    rightNode.style.visibility = direction === LEFT ? 'visible' : 'hidden';
-    !rightNode.classList.contains('right') && rightNode.classList.add('right');
-    rightNode.classList.remove('left');
-    rightNode.classList.remove('current');
-
-    initActiveIndicators();
-    setTimeout(function () {
-      buildImgUrl(boxes);
-    }, 500);//这里500与动画时间保持一致
+      initActiveIndicators();
+      setTimeout(function () {
+        buildImgUrl(boxes);
+      }, 500);//这里500与动画时间保持一致,动画结束后更新两侧的图片
+    });
   }
 
   function initActiveIndicators () {
@@ -309,7 +310,7 @@
   }
   init(options);
   return {
-    jumpTo: jumpTo,//考虑如果ismoveing;拦截了用户调用的jumpTo怎么办,维护一个调用队列？ TODO
+    jumpTo: jumpTo,
     next: onNext,
     previous: onPrevious,
     destroy: destroy
