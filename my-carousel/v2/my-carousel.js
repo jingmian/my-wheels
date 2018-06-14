@@ -24,6 +24,7 @@
     leading: true,  // 第一次调用事件是否立即执行
     trailing: true // 最后一次延迟调用是否执行
   }
+  var toggleTime = '500'
 
   function onNext () {
     jumpTo(curIndex + 1); // 统一入口来节流
@@ -58,10 +59,12 @@
       throw new Error('urls must be an Array');
     }
     urls = options.urls;
-    curIndex = options.curIndex || 0;
-    isAutoPlay = typeof options.isAutoPlay === 'boolean' ? options.isAutoPlay : true;
-    cycle = typeof options.cycle === 'number' ? options.cycle : 2222;
+    options.curIndex && (curIndex = options.curIndex);
+    typeof options.isAutoPlay === 'boolean' && (isAutoPlay = options.isAutoPlay)
+
+    typeof options.cycle === 'number' && (cycle = options.cycle)
     changeCallback = options.change || noop;
+    options.toggleTime && (toggleTime = options.toggleTime)
   }
 
   function initDom () {
@@ -201,11 +204,13 @@
 //执行切换 入口只有next和previous
   function move (boxes, direction) {
     window.requestAnimationFrame(function () {
+      var transitionDuration = toggleTime + 'ms';
+
       var leftNode = boxes[0].el;
       if (direction === RIGHT) {
-        leftNode.classList.add('is-transforming');
+        leftNode.style.transitionDuration = transitionDuration;
       } else {
-        leftNode.classList.remove('is-transforming');
+        leftNode.style.transitionDuration = null;
       }
       leftNode.classList.add('left');
       leftNode.classList.remove('current');
@@ -213,16 +218,16 @@
 
       boxes[1].imgEL.src = urls[curIndex];//先渲染主图
       var currentNode = boxes[1].el;
-      currentNode.classList.add('is-transforming');
+      currentNode.style.transitionDuration = transitionDuration;
       currentNode.classList.add('current');
       currentNode.classList.remove('left');
       currentNode.classList.remove('right');
 
       var rightNode = boxes[2].el;
       if (direction === LEFT) {
-        rightNode.classList.add('is-transforming');
+        rightNode.style.transitionDuration = transitionDuration;
       } else {
-        rightNode.classList.remove('is-transforming');
+        rightNode.style.transitionDuration = null;
       }
       rightNode.classList.add('right');
       rightNode.classList.remove('left');
@@ -231,7 +236,7 @@
       initActiveIndicators();
       setTimeout(function () {
         buildImgUrl(boxes);
-      }, 500);//这里500与动画时间保持一致,动画结束后更新两侧的图片
+      }, toggleTime);//这里toggleTime与动画时间保持一致,动画结束后更新两侧的图片
     });
   }
 

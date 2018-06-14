@@ -15,6 +15,7 @@
     height: 100%;
     position: absolute;
     left: 0;
+    transition-property: transform;
 }
 
 .img-wrapper img {
@@ -95,9 +96,6 @@
 
 .right {
     transform: translateX(100%);
-}
-.is-transforming{
-    transition: transform .5s;
 }
 .guide {
     position: absolute;
