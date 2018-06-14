@@ -10,11 +10,12 @@
     *   change:function(newIndex,oldIndex);（即将切换之前的回调）return false表示阻止本次切换
     *  }
    */
-  var LEFT = 0, RIGHT = 1;
+  var LEFT = -1, RIGHT = 1;
 
   var urls = []//只有1张图片怎么办 TODO
   var boxes = [];
   var curIndex = 0;
+  var oldIndex = 0;
   var isAutoPlay = true;
   var cycle = 3333//ms
   var timerId = null;
@@ -22,29 +23,16 @@
   var guide = null;
   var throttleOption = {
     leading: true,  // 第一次调用事件是否立即执行
-    trailing: true // 最后一次延迟调用是否执行
+    trailing: false // 最后一次延迟调用是否执行
   }
   var toggleTime = '500'
 
-  function onNext () {
-    jumpTo(curIndex + 1); // 统一入口来节流
-  }
-
-
-  function onPrevious () {
-    jumpTo(curIndex - 1);// 统一入口来节流
-  }
-
-
   //跳到第几张
-  var jumpTo = _throttle(function (i) {
-    i = parseInt(i)
-    if (i > curIndex) {
-      next(i);
-    } else if (i < curIndex) {
-      previous(i);
-    }
-  }, 500, throttleOption);
+  var jumpTo = noop()
+  if (!el) {
+    throw new Error('el does not exist');
+  }
+  init(options);
 
   function init (options) {
     initData(options);
@@ -65,6 +53,15 @@
     typeof options.cycle === 'number' && (cycle = options.cycle)
     changeCallback = options.change || noop;
     options.toggleTime && (toggleTime = options.toggleTime)
+
+    jumpTo = _throttle(function (i) {
+      i = parseInt(i)
+      if (i > curIndex) {
+        next(i);
+      } else if (i < curIndex) {
+        previous(i);
+      }
+    }, toggleTime, throttleOption);
   }
 
   function initDom () {
@@ -160,15 +157,14 @@
     jumpTo(e.target.dataset.index);
   }
 
-  function buildImgUrl (boxes) {
+  function buildImgUrl (boxes, direction) {
     boxes[0].imgEL.src = urls[curIndex === 0 ? urls.length - 1 : curIndex - 1];
     boxes[2].imgEL.src = urls[curIndex === urls.length - 1 ? 0 : curIndex + 1];
   }
 
-
   function previous (index) {//index:第几张，可能超过length
     typeof index !== 'number' && (index = curIndex - 1);//index不存在，默认移动一步
-    var oldIndex = curIndex;
+    oldIndex = curIndex;
     if (index < 0) {
       curIndex = urls.length + index;
     } else {
@@ -186,7 +182,7 @@
 
   function next (index) {
     typeof index !== 'number' && (index = curIndex + 1);//index不存在，默认移动一步
-    var oldIndex = curIndex;
+    oldIndex = curIndex;
     if (index >= urls.length) {
       curIndex = index - urls.length;
     } else {
@@ -205,6 +201,7 @@
   function move (boxes, direction) {
     window.requestAnimationFrame(function () {
       var transitionDuration = toggleTime + 'ms';
+      boxes[1].imgEL.src = urls[curIndex];//先渲染主图
 
       var leftNode = boxes[0].el;
       if (direction === RIGHT) {
@@ -216,7 +213,7 @@
       leftNode.classList.remove('current');
       leftNode.classList.remove('right');
 
-      boxes[1].imgEL.src = urls[curIndex];//先渲染主图
+
       var currentNode = boxes[1].el;
       currentNode.style.transitionDuration = transitionDuration;
       currentNode.classList.add('current');
@@ -234,10 +231,21 @@
       rightNode.classList.remove('current');
 
       initActiveIndicators();
+      var start = Date.now()
       setTimeout(function () {
         buildImgUrl(boxes);
       }, toggleTime);//这里toggleTime与动画时间保持一致,动画结束后更新两侧的图片
+      console.log(curIndex)
     });
+  }
+
+  function onNext () {
+    jumpTo(curIndex + 1); // 统一入口来节流
+  }
+
+
+  function onPrevious () {
+    jumpTo(curIndex - 1);// 统一入口来节流
   }
 
   function initActiveIndicators () {
@@ -295,6 +303,7 @@
     var later = function () {
       previous = options.leading === false ? 0 : +new Date()
       timeout = null
+      console.log(arguments)
       result = fn.apply(context, args)
       if (!timeout) context = args = null
     }
@@ -310,11 +319,13 @@
           clearTimeout(timeout)
           timeout = null
         }
+        console.log(1)
         previous = now
         result = fn.apply(context, args)
         if (!timeout) context = args = null
       } else if (!timeout && options.trailing !== false) {
-        timeout = setTimeout(later, remaining)
+        timeout = setTimeout(later, remaining,"劳资比你早执行，懂？")
+        console.log("throttled")
       }
       return result
     }
@@ -322,10 +333,6 @@
     return throttled
   }
 
-  if (!el) {
-    throw new Error('el does not exist');
-  }
-  init(options);
   return {
     jumpTo: jumpTo,
     next: onNext,
