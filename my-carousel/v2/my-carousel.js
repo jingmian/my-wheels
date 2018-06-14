@@ -26,21 +26,22 @@
   }
 
   function onNext () {
-    jumpTo(curIndex + 1);
+    jumpTo(curIndex + 1); // 统一入口来节流
   }
 
 
   function onPrevious () {
-    jumpTo(curIndex - 1);
+    jumpTo(curIndex - 1);// 统一入口来节流
   }
 
 
   //跳到第几张
   var jumpTo = _throttle(function (i) {
+    i = parseInt(i)
     if (i > curIndex) {
-      next(i - curIndex);
+      next(i);
     } else if (i < curIndex) {
-      previous(curIndex - i);
+      previous(i);
     }
   }, 500, throttleOption);
 
@@ -162,13 +163,16 @@
   }
 
 
-  function previous (step) {//step移动步数
-    !step && step !== 0 && (step = 1);//step不存在，默认移动1一步
+  function previous (index) {//index:第几张，可能超过length
+    typeof index !== 'number' && (index = curIndex - 1);//index不存在，默认移动一步
     var oldIndex = curIndex;
-    curIndex = curIndex - step;
-    curIndex < 0 && (curIndex += urls.length)
+    if (index < 0) {
+      curIndex = urls.length + index;
+    } else {
+      curIndex = index;
+    }
 
-    if (changeCallback(curIndex, oldIndex) === false) {
+    if (changeCallback(curIndex, oldIndex) === false) {// 用户回调return false阻止本次切换
       return;
     }
     var footer = boxes.pop();
@@ -177,13 +181,14 @@
     move(boxes, LEFT);
   }
 
-  function next (step) {
-
-    !step && step !== 0 && (step = 1);//i不存在，默认移动1一步
-
+  function next (index) {
+    typeof index !== 'number' && (index = curIndex + 1);//index不存在，默认移动一步
     var oldIndex = curIndex;
-    curIndex = curIndex + step;
-    curIndex >= urls.length && (curIndex -= urls.length);
+    if (index >= urls.length) {
+      curIndex = index - urls.length;
+    } else {
+      curIndex = index;
+    }
 
     if (changeCallback(curIndex, oldIndex) === false) {
       return;
@@ -196,23 +201,30 @@
 //执行切换 入口只有next和previous
   function move (boxes, direction) {
     window.requestAnimationFrame(function () {
-
       var leftNode = boxes[0].el;
-      leftNode.style.visibility = direction === RIGHT ? 'visible' : 'hidden';
-      !leftNode.classList.contains('left') && leftNode.classList.add('left');
+      if (direction === RIGHT) {
+        leftNode.classList.add('is-transforming');
+      } else {
+        leftNode.classList.remove('is-transforming');
+      }
+      leftNode.classList.add('left');
       leftNode.classList.remove('current');
       leftNode.classList.remove('right');
 
       boxes[1].imgEL.src = urls[curIndex];//先渲染主图
       var currentNode = boxes[1].el;
-      currentNode.style.visibility = 'visible';
-      !currentNode.classList.contains('current') && currentNode.classList.add('current');
+      currentNode.classList.add('is-transforming');
+      currentNode.classList.add('current');
       currentNode.classList.remove('left');
       currentNode.classList.remove('right');
 
       var rightNode = boxes[2].el;
-      rightNode.style.visibility = direction === LEFT ? 'visible' : 'hidden';
-      !rightNode.classList.contains('right') && rightNode.classList.add('right');
+      if (direction === LEFT) {
+        rightNode.classList.add('is-transforming');
+      } else {
+        rightNode.classList.remove('is-transforming');
+      }
+      rightNode.classList.add('right');
       rightNode.classList.remove('left');
       rightNode.classList.remove('current');
 
