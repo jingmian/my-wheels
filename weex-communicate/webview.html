@@ -12,7 +12,11 @@
   <input type="button" value="js调native" onclick="ok()">
   <script type="text/javascript">
     function ok() {
-      android.toastMessage("哈哈,i m webview msg");
+      try {
+        webkit.messageHandlers.callbackHandle.postMessage("Hello World123")
+      } catch (error) {
+        console.error('The native context not exist ')
+      }
     }
   </script>
 </body>
