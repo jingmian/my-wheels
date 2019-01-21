@@ -13,7 +13,7 @@
   <script type="text/javascript">
     function ok() {
       try {
-        window.postMessage({ starNum: "Hello World123666" })
+        android.toastMessage({ starNum: "Hello World123" })
       } catch (error) {
         console.error('The native context not exist ')
       }
