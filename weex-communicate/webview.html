@@ -12,8 +12,8 @@
   <input type="button" value="js调native" onclick="ok()">
   <script type="text/javascript">
     function ok() {
-      try {
-        android.toastMessage('{ starNum: "Hello World123" }')
+      try {a
+        android.toastMessage({ starNum: "Hello World123" })
       } catch (error) {
         console.error('The native context not exist ')
       }
