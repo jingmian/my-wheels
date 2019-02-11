@@ -9,13 +9,31 @@
 
 <body>
   <h1>~~~欢迎p_C的blog</h1>
-  <input type="button" value="js调native" onclick="ok()">
+  <input type="button" value="js调webkit native" onclick="ok1()">
+  <input type="button" value="js调native" onclick="ok2()">
   <script type="text/javascript">
-    function ok() {
+    function ok1() {
       try {
-        android.toastMessage(JSON.stringify({ starNum: "Hello World123" }))
+        webkit.messageHandlers.ivynative_natvieShare.postMessage(JSON.stringify({
+          title: 'title1',
+          content: 'content1',
+          url: 'http://m.ivydad.com.cn/h5/luckdraw',
+          pic_url: 'http://exploiter-beta.oss-cn-beijing.aliyuncs.com/tools/upload/f22a7f86-8b06-ad16-1e31-ecebafcbb311.jpeg',
+        }))
       } catch (error) {
-        console.error('The native context not exist ')
+        console.error('ok1 The native context not exist ')
+      }
+    }
+    function ok2() {
+      try {
+        window.ivynative_natvieShare.postMessage(JSON.stringify({
+          title: 'title1',
+          content: 'content1',
+          url: 'http://m.ivydad.com.cn/h5/luckdraw',
+          pic_url: 'http://exploiter-beta.oss-cn-beijing.aliyuncs.com/tools/upload/f22a7f86-8b06-ad16-1e31-ecebafcbb311.jpeg',
+        }))
+      } catch (error) {
+        console.error('ok2 The native context not exist ')
       }
     }
   </script>
