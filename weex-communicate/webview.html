@@ -9,12 +9,12 @@
 
 <body>
   <h1>~~~欢迎p_C的blog</h1>
-  <input type="button" value="js调webkit native" onclick="ok1()">
-  <input type="button" value="js调native" onclick="ok2()">
+  <input type="button" value="js调webkit native callbackHandle" onclick="ok1()">
+  <input type="button" value="js调native callbackHandle" onclick="ok2()">
   <script type="text/javascript">
     function ok1() {
       try {
-        webkit.messageHandlers.ivynative_natvieShare.postMessage(JSON.stringify({
+        webkit.messageHandlers.callbackHandle.postMessage(JSON.stringify({
           title: 'title1',
           content: 'content1',
           url: 'http://m.ivydad.com.cn/h5/luckdraw',
@@ -26,7 +26,7 @@
     }
     function ok2() {
       try {
-        window.ivynative_natvieShare.postMessage(JSON.stringify({
+        window.callbackHandle.postMessage(JSON.stringify({
           title: 'title1',
           content: 'content1',
           url: 'http://m.ivydad.com.cn/h5/luckdraw',
