@@ -9,7 +9,7 @@
 
 <body>
   <img src="https://qr.alipay.com/bax06845wcxeta2jwh6z201e">
-  <h1>android webview交互测试6666</h1>
+  <h1>android webview交互测试66667</h1>
   <input type="button" value="nativeLogin" onclick="login()">
   <input type="button" value="nativeIsLogin" onclick="isLogin()">
   <input type="button" value="nativeGetInfo" onclick="getInfo()">
@@ -17,24 +17,28 @@
   <input type="button" value="js调native" onclick="pay()">
   <script type="text/javascript">
     function login() {
-      alert('nativeLogin：' + ivynative.nativeLogin())
+      const r = ivynative.nativeLogin()
+      alert('nativeLogin：' + r)
     }
     function isLogin() {
       alert('nativeIsLogin' + ivynative.nativeIsLogin())
     }
-    function onNativeLogin() {
+    window.onNativeLogin = () => {
       alert('登录回调啦')
     }
     function getInfo() {
-      alert('nativeGetInfo' + ivynative.nativeGetInfo())
+      const r = ivynative.nativeGetInfo()
+      alert('nativeGetInfo' + r)
     }
     function share() {
-      alert('nativeShare' + ivynative.nativeShare())
+      const r = ivynative.nativeShare()
+      alert('nativeShare' + r)
     }
     function pay() {
-      alert('pay' + ivynative.nativePay())
+      const r = ivynative.nativePay()
+      alert('pay' + r)
     }
-    function onNativePaySuccess() {
+    window.onNativePaySuccess = () => {
       alert('onNativePaySuccess')
     }
   </script>
