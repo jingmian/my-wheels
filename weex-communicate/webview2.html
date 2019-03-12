@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+</head>
+
+<body>
+  <img src="https://qr.alipay.com/bax06845wcxeta2jwh6z201e">
+  <h1>android webview交互测试</h1>
+  <input type="button" value="nativeLogin" onclick="login()">
+  <input type="button" value="nativeIsLogin" onclick="isLogin()">
+  <input type="button" value="nativeGetInfo" onclick="getInfo()">
+  <input type="button" value="nativeShare" onclick="share()">
+  <input type="button" value="js调native" onclick="pay()">
+  <script type="text/javascript">
+    function login() {
+      alert('nativeLogin：' + nativeLogin())
+    }
+    function isLogin() {
+      alert('nativeIsLogin' + nativeIsLogin())
+    }
+    function onNativeLogin() {
+      alert('登录回调啦')
+    }
+    function getInfo() {
+      alert('nativeGetInfo' + nativeGetInfo())
+    }
+    function share() {
+      alert('nativeShare' + nativeShare())
+    }
+    function pay() {
+      alert('pay' + nativePay())
+    }
+    function onNativePaySuccess() {
+      alert('onNativePaySuccess')
+    }
+  </script>
+</body>
