@@ -27,16 +27,21 @@
       alert('登录回调啦')
     }
     function getInfo() {
-      const r = ivynative.nativeGetInfo()
+      const r = ivynative.nativeGetInfo('all')
       alert('nativeGetInfo' + r)
     }
     function share() {
-      const r = ivynative.nativeShare()
-      alert('nativeShare' + r)
+      let options = {
+        title: 'this.prizeInfo.share_title',
+        content: 'this.prizeInfo.share_detail',
+        url: `${conf.env === 'production' ? 'https://m.ivydad.com' : 'http://m.ivydad.com.cn'}/h5/luckdraw`,
+        pic_url: 'this.prizeInfo.share_pic_url',
+      }
+      ivynative.nativeShare(options)
     }
     function pay() {
-      const r = ivynative.nativePay()
-      alert('pay' + r)
+      ivynative.nativePay()
+      alert('pay' )
     }
     window.onNativePaySuccess = () => {
       alert('onNativePaySuccess')
