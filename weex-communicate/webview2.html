@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <h1> webview交互测试</h1>
+  <h1> webview交互测试 666</h1>
   <input id="buttons" type="button" value="nativeLogin">
   <input type="button" value="nativeIsLogin" onclick="isLogin()">
   <input type="button" value="nativeGetInfo" onclick="getInfo()">
@@ -62,7 +62,7 @@
       setTimeout(function () { document.documentElement.removeChild(WVJBIframe) }, 0)
     }
     setupWebViewJavascriptBridge(function (bridge) {
-      bridge.registerHandler('onNativeLogin', function (data) {
+      bridge.registerHandler('onNativeLogin', function (data, responseCallback) {
         alert('登录回调啦' + JSON.stringify(data))
       })
       callbackButton.onclick = function (e) {
