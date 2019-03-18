@@ -8,13 +8,14 @@
 </head>
 
 <body>
-  <h1 id="titletest"> webview交互测试 777</h1>
-  <input id="buttons" type="button" value="nativeLogin">
+  <h1 id="titletest"> webview交互测试 777666</h1>
+  <input id="buttons" type="button" value="nativeLogin" onclick="login()">
   <input type="button" value="nativeIsLogin" onclick="isLogin()">
   <input type="button" value="nativeGetInfo" onclick="getInfo()">
   <input type="button" value="nativeShare" onclick="share()">
   <input type="button" value="pay" onclick="pay()">
-  <!-- <script type="text/javascript">
+  <script type="text/javascript">
+    const titletest = document.getElementById('titletest')
     function login() {
       ivynative.nativeLogin()
       alert('nativeLogin：')
@@ -23,6 +24,7 @@
       alert('nativeIsLogin' + ivynative.nativeIsLogin())
     }
     window.onNativeLogin = () => {
+      titletest.innerHTML = '登录回调啦'
       alert('登录回调啦')
     }
     function getInfo() {
@@ -40,13 +42,14 @@
     }
     function pay() {
       ivynative.nativePay()
-      alert('pay' )
+      alert('pay')
     }
     window.onNativePaySuccess = () => {
       alert('onNativePaySuccess')
     }
-  </script> -->
-  <script>
+  </script>
+
+  <!-- <script>
     window.onerror = function (err) {
       alert(`onerror:${JSON.stringify(err)}`)
     }
@@ -75,5 +78,5 @@
         alert('nativeLogin')
       }
     })
-  </script>
+  </script> -->
 </body>
