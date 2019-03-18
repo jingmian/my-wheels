@@ -9,12 +9,12 @@
 
 <body>
   <h1> webview交互测试</h1>
-  <input type="button" value="nativeLogin" onclick="login()">
+  <input id="buttons" type="button" value="nativeLogin">
   <input type="button" value="nativeIsLogin" onclick="isLogin()">
   <input type="button" value="nativeGetInfo" onclick="getInfo()">
   <input type="button" value="nativeShare" onclick="share()">
   <input type="button" value="pay" onclick="pay()">
-  <script type="text/javascript">
+  <!-- <script type="text/javascript">
     function login() {
       ivynative.nativeLogin()
       alert('nativeLogin：')
@@ -45,5 +45,33 @@
     window.onNativePaySuccess = () => {
       alert('onNativePaySuccess')
     }
+  </script> -->
+  <script>
+    window.onerror = function (err) {
+      alert(`onerror:${JSON.stringify(err)}`)
+    }
+    const callbackButton = document.getElementById('buttons')
+    function setupWebViewJavascriptBridge(callback) {
+      if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+      if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+      window.WVJBCallbacks = [callback];
+      var WVJBIframe = document.createElement('iframe');
+      WVJBIframe.style.display = 'none';
+      WVJBIframe.src = 'https://__bridge_loaded__';
+      document.documentElement.appendChild(WVJBIframe);
+      setTimeout(function () { document.documentElement.removeChild(WVJBIframe) }, 0)
+    }
+    setupWebViewJavascriptBridge(function (bridge) {
+      bridge.registerHandler('onNativeLogin', function (data) {
+        alert('登录回调啦' + JSON.stringify(data))
+      })
+      callbackButton.onclick = function (e) {
+        e.preventDefault()
+        bridge.callHandler('nativeLogin', {}, function (response) {
+          alert(`登录response:${response}`)
+        })
+        alert('nativeLogin')
+      }
+    })
   </script>
 </body>
