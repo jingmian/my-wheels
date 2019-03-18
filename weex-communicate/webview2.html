@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <h1> webview交互测试 666</h1>
+  <h1 id="titletest"> webview交互测试 777</h1>
   <input id="buttons" type="button" value="nativeLogin">
   <input type="button" value="nativeIsLogin" onclick="isLogin()">
   <input type="button" value="nativeGetInfo" onclick="getInfo()">
@@ -51,6 +51,7 @@
       alert(`onerror:${JSON.stringify(err)}`)
     }
     const callbackButton = document.getElementById('buttons')
+    const titletest = document.getElementById('titletest')
     function setupWebViewJavascriptBridge(callback) {
       if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
       if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
@@ -63,6 +64,7 @@
     }
     setupWebViewJavascriptBridge(function (bridge) {
       bridge.registerHandler('onNativeLogin', function (data, responseCallback) {
+        titletest.innerHTML = '23423'
         alert('登录回调啦' + JSON.stringify(data))
       })
       callbackButton.onclick = function (e) {
