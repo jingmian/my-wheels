@@ -8,8 +8,7 @@
 </head>
 
 <body>
-  <img src="https://qr.alipay.com/bax06845wcxeta2jwh6z201e">
-  <h1>android webview交互测试6666780009</h1>
+  <h1> webview交互测试</h1>
   <input type="button" value="nativeLogin" onclick="login()">
   <input type="button" value="nativeIsLogin" onclick="isLogin()">
   <input type="button" value="nativeGetInfo" onclick="getInfo()">
@@ -37,7 +36,7 @@
         url: `http://m.ivydad.com.cn/h5/luckdraw`,
         pic_url: 'https://img.yzcdn.cn/upload_files/2018/11/15/FsndzuevijBBSJiGHSQfQhrVHVSL.jpg',
       }
-      ivynative.nativeShare(options)
+      ivynative.nativeShare(JSON.stringify(options))
     }
     function pay() {
       ivynative.nativePay()
